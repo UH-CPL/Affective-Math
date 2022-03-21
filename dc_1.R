@@ -5,14 +5,14 @@ source("Scripts/@DownSampleTimeStamp.R")
 source("Scripts/@RemoveNoise.R")
 
 # No. of Participants
-p = list.files("Pilot_CSV_WorkingCopy/Exp/")
-px = p[-1]
+p = list.files("Data/RAW_noDAT/")
+
 
 
 # Baseline
-for (p1 in px) {
+for (p1 in p) {
   print(p1)
-  nfiles = length(list.files(paste0("Pilot_CSV_WorkingCopy/",p1)))
+  nfiles = length(list.files(paste0("Data/RAW_noDAT/",p1)))
   if (nfiles == 5) {
     dir.create(paste0("Pilot_CSV_WorkingCopy/",p1,"/Curation"))
   }
