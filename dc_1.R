@@ -5,21 +5,21 @@ source("Scripts/@DownSampleTimeStamp.R")
 source("Scripts/@RemoveNoise.R")
 
 # No. of Participants
-p = list.files("Data/RAW_noDAT/")
+p = list.files("Data/RAW/")
 
 
 
 # Baseline
 for (p1 in p) {
   print(p1)
-  nfiles = length(list.files(paste0("Data/RAW_noDAT/",p1)))
+  nfiles = length(list.files(paste0("Data/RAW/",p1)))
   if (nfiles == 5) {
-    dir.create(paste0("Pilot_CSV_WorkingCopy/",p1,"/Curation"))
+    dir.create(paste0("Data/RAW/",p1,"/Curation"))
   }
   #PP
-  f = list.files(paste0("Pilot_CSV_WorkingCopy/Exp/",p1,"/Baseline"), 
+  f = list.files(paste0("Data/RAW/",p1,"/RestingBaseline"), 
                  pattern = "pp.csv")
-  bpp_raw = read.csv(paste0("Pilot_CSV_WorkingCopy/Exp/",p1,"/Baseline/",f))
+  bpp_raw = read.csv(paste0("Data/RAW/",p1,"/RestingBaseline/",f))
   bpp = bpp_raw
   bpp$Perspiration <- remove_noise(bpp$Perspiration)
   bpp = downsample_using_mean(bpp, "Perspiration")
@@ -32,7 +32,9 @@ for (p1 in p) {
     ggtitle(paste0(p1," Baseline Perspiration")) +
     xlab("Time [s]") + 
     ylab(expression(paste(Delta,degree," C"^2,)))
-  ggsave(paste0("Pilot_CSV_WorkingCopy/Exp/",p1,"/Curation/",p1,"-PP-BL_v2.pdf"),
+  dir.create("Plots/Curation/")
+  dir.create(paste0("Plots/Curation/",p1))
+  ggsave(paste0("Plots/Curation/",p1,"/",p1,"-PP-BL.pdf"),
         width = 8, height = 4)
   
 
@@ -55,8 +57,7 @@ for (p1 in p) {
   ggsave(paste0("Pilot_CSV_WorkingCopy/Exp/",p1,"/Curation/",p1,"-BR-BL_v2.pdf"),
          width = 8, height = 4)
   
-  write_csv(bpp, paste0("Pilot_CSV_WorkingCopy/Exp/",p1,"/Curation/",
-                        p1,"-BL_v2.csv"))
+  #write_csv(bpp, paste0("Pilot_CSV_WorkingCopy/Exp/",p1,"/Curation/", p1,"-BL_v2.csv"))
 }
 
 
