@@ -1,6 +1,9 @@
 library(tidyverse)
 
-d =read.csv("Data/Subjectbook/AffectiveMathV2.csv")
+d =read.csv("Data/Subjectbook/FK_NSF-Math-Exam-SB_to_S002.csv")
+dx =read.csv("Data/Subjectbook/NSF-Math-Pilot.csv")
+dd =read.csv("Data/Subjectbook/AffectiveMath.csv")
+
 
 d$Day = "MathExam"
 
@@ -26,4 +29,13 @@ for (i in hridata) {
 
 plot(d1$HR.I, type = "l")
 plot(d$HR.I, type = "l")
- 
+
+write.csv(d,"Data/Subjectbook/AffectiveMath.csv", row.names = F)
+
+class(dd$VideoTime)
+class(dd$Time)
+dd$Time = as.integer(dd$Time)
+colnames(dd)[3] = "TreatmentTime"
+write.csv(dd,"Data/Subjectbook/AffectiveMath.csv", row.names = F)
+
+
